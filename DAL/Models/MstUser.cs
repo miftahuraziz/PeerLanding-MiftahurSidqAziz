@@ -11,11 +11,12 @@ public partial class MstUser
 
     public string Email { get; set; } = null!;
 
-    public string Password { get; set; } = null!;
+    public string Password { get; set; } = BCrypt.Net.BCrypt.HashPassword("Password1");
 
     public string Role { get; set; } = null!;
 
-    public decimal? Balance { get; set; }
+    public decimal? Balance { get; set; } = 0;
+
     public List<MstLoans> MstLoans { get; set; } = new List<MstLoans>();
     public List<TrnFunding> TrnFunding { get; set; } = new List<TrnFunding>();
 }

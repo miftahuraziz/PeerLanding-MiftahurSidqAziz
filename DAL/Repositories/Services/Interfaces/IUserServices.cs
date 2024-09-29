@@ -12,7 +12,7 @@ namespace DAL.Repositories.Services.Interfaces
     {
         Task<string> Register(ReqRegisterUserDto register);
         Task<List<ResUserDto>> GetAllUsers();
-        Task<ResUserDto> GetUserById(string id);
+        Task<ResUserByIdDto> GetUserById(string id);
         Task<ResLoginDto> Login(ReqLoginDto reqLogin);
         Task DeleteUserById(string id);
         Task<ResUserDto> UpdateUserById(string id, ReqUpdateUserDto updateUser);

@@ -139,6 +139,15 @@ namespace BEPeer.Controllers
             }
             catch (ResErrorDto ex)
             {
+                if (ex.Message == "Email already used")
+                {
+                    return BadRequest(new ResBaseDto<object>
+                    {
+                        Success = false,
+                        Message = ex.Message,
+                        Data = null
+                    });
+                }
                 return StatusCode(ex.StatusCode, new ResBaseDto<object>
                 {
                     Success = false,
@@ -173,7 +182,7 @@ namespace BEPeer.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, lender")]
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetById(string id)
@@ -200,7 +209,7 @@ namespace BEPeer.Controllers
 
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, lender")]
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> Update(string id, ReqUpdateUserDto updateUserDto)

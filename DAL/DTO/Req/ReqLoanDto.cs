@@ -16,13 +16,13 @@ namespace DAL.DTO.Req
         [Range(0, double.MaxValue, ErrorMessage = "Amount must be a positive value")]
         public decimal Amount { get; set; }
 
-        [Required(ErrorMessage = "Interesr rate is required!")]
+        /*[Required(ErrorMessage = "Interest rate is required!")]
         public decimal InterestRate {  get; set; }
 
         [Required(ErrorMessage = "Duration is required!")]
         public int Duration { get; set; }
 
         [Required(ErrorMessage = "Status is required!")]
-        public string Status { get; set; }
+        public string Status { get; set; }*/
     }
 }

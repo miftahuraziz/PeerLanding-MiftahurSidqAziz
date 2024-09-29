@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(PeerlandingContext))]
-    [Migration("20240925023259_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240929101759_AddTrnRepaymentTable")]
+    partial class AddTrnRepaymentTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,9 +135,48 @@ namespace DAL.Migrations
 
                     b.HasIndex("LenderId");
 
-                    b.HasIndex("LoanId");
+                    b.HasIndex("LoanId")
+                        .IsUnique();
 
                     b.ToTable("trn_funding");
+                });
+
+            modelBuilder.Entity("DAL.Models.TrnRepayment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
+
+                    b.Property<decimal>("BalanceAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("balance_amount");
+
+                    b.Property<string>("LoanId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("loan_id");
+
+                    b.Property<DateTime>("PaidAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("paid_at");
+
+                    b.Property<decimal>("RepaidAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("repaid_amount");
+
+                    b.Property<string>("RepaidStatus")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("repaid_status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoanId");
+
+                    b.ToTable("trn_repayment");
                 });
 
             modelBuilder.Entity("DAL.Models.MstLoans", b =>
@@ -154,14 +193,14 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Models.TrnFunding", b =>
                 {
                     b.HasOne("DAL.Models.MstUser", "User")
-                        .WithMany()
+                        .WithMany("TrnFunding")
                         .HasForeignKey("LenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DAL.Models.MstLoans", "Loan")
-                        .WithMany()
-                        .HasForeignKey("LoanId")
+                        .WithOne("TrnFunding")
+                        .HasForeignKey("DAL.Models.TrnFunding", "LoanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -170,9 +209,28 @@ namespace DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DAL.Models.TrnRepayment", b =>
+                {
+                    b.HasOne("DAL.Models.MstLoans", "Loan")
+                        .WithMany()
+                        .HasForeignKey("LoanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Loan");
+                });
+
+            modelBuilder.Entity("DAL.Models.MstLoans", b =>
+                {
+                    b.Navigation("TrnFunding")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DAL.Models.MstUser", b =>
                 {
                     b.Navigation("MstLoans");
+
+                    b.Navigation("TrnFunding");
                 });
 #pragma warning restore 612, 618
         }

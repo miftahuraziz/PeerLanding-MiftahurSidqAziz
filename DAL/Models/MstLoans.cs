@@ -24,11 +24,11 @@ namespace DAL.Models
 
         [Required]
         [Column("interest_rate")]
-        public decimal InterestRate { get; set; }
+        public decimal InterestRate { get; set; } = 0.025M;
 
         [Required]
         [Column("duration_month")]
-        public int Duration {  get; set; }
+        public int Duration { get; set; } = 12;
 
         [Required]
         [Column("status")]

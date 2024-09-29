@@ -17,16 +17,16 @@ namespace DAL.DTO.Req
         [MaxLength(30, ErrorMessage = "Email cannot exceed 30 characters")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage ="Password is required")]
+        /*[Required(ErrorMessage ="Password is required")]
         [MinLength(8, ErrorMessage ="Password must be at least 8 characters long")]
         [MaxLength(50, ErrorMessage = "Password cannot exceed 50 characters")]
-        public string Password { get; set; }
+        public string Password { get; set; }*/
 
         [Required(ErrorMessage = "Role is required")]
         [MaxLength(30, ErrorMessage = "Role cannot exceed 30 characters")]
         public string Role {  get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Balance must be a positive value")]
-        public decimal? Balance { get; set; }
+        /*[Range(0, double.MaxValue, ErrorMessage = "Balance must be a positive value")]
+        public decimal? Balance { get; set; }*/
     }
 }

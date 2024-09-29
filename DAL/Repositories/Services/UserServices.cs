@@ -53,9 +53,11 @@ namespace DAL.Repositories.Services
             {
                 throw new Exception("Invalid email or password");
             }
+            var id = user.Id;
             var token = GenerateJwtToken(user);
             var loginResponse = new ResLoginDto
             {
+                Id = id,
                 Token = token,
             };
 
@@ -98,9 +100,9 @@ namespace DAL.Repositories.Services
             {
                 Name = register.Name,
                 Email = register.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(register.Password),
+                //Password = register.Password,
                 Role = register.Role,
-                Balance = register.Balance,
+                //Balance = register.Balance,
             };
 
             await _context.MstUsers.AddAsync(newUser);
@@ -109,7 +111,7 @@ namespace DAL.Repositories.Services
             return newUser.Name;
         }
 
-        public async Task<ResUserDto> GetUserById(string id)
+        public async Task<ResUserByIdDto> GetUserById(string id)
         {
             var user = await _context.MstUsers.SingleOrDefaultAsync(x => x.Id == id);
             if (user == null)
@@ -121,12 +123,12 @@ namespace DAL.Repositories.Services
                     StatusCode = StatusCodes.Status404NotFound
                 };
             }
-            var result = new ResUserDto
+            var result = new ResUserByIdDto
             {
                 Id = id,
                 Name = user.Name,
-                Email = user.Email,
                 Role = user.Role,
+                //Email = user.Email,
                 Balance = user.Balance
             };
             return result;
