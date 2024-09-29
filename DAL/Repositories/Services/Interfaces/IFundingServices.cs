@@ -12,6 +12,6 @@ namespace DAL.Repositories.Services.Interfaces
     {
         Task<string> AddFunding(ReqAddFundingDto reqAddFundingDto);
         Task<string> FundingLoan(ReqFundingLoanDto reqFundingLoanDto);
-        Task<List<ResFundingDto>> GetFundings();
+        Task<List<ResFundingDto>> GetFundings(string lenderId);
     }
 }

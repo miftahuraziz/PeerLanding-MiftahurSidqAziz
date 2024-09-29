@@ -89,11 +89,12 @@ namespace DAL.Repositories.Services
             }
         }
 
-        public async Task<List<ResFundingDto>> GetFundings()
+        public async Task<List<ResFundingDto>> GetFundings(string lenderId)
         {
             var fundings = await _peerLandingContext.TrnFunding
                 .Include(f => f.User)
                 .Include(f => f.Loan)
+                .Where(f => f.User.Id == lenderId || lenderId == null)
                 .OrderByDescending(f => f.FundedAt)
                 .Select(funding => new ResFundingDto
                 {

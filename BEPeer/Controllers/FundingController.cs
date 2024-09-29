@@ -60,11 +60,12 @@ namespace BEPeer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllFundings()
+        [Route("{lenderId}")]
+        public async Task<IActionResult> GetAllFundings(string lenderId)
         {
             try
             {
-                var res = await _fundingServices.GetFundings();
+                var res = await _fundingServices.GetFundings(lenderId);
                 return Ok(new ResBaseDto<object>
                 {
                     Success = true,
